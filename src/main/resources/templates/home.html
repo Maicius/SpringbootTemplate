@@ -1,0 +1,140 @@
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>交通刑事案件裁判文书过程模型挖掘</title>
+</head>
+<body ms-controller="dzjz">
+<div class="wrap space_content">
+    <!--顶部导航栏-->
+    <div class="navbar navbar-fixed-top">
+        <div class="adjust-nav-top">
+            <div class="navbar-header">
+                <a class="navbar-brand navbar-brand-name"><i class="fa fa-square-o "></i>&nbsp;交通刑事案件裁判文书过程模型挖掘</a>
+            </div>
+        </div>
+    </div>
+    <div class="main_content">
+        <!--左边的内容-->
+        <div class="left">
+            <!--左边的导航栏-->
+            <div class="nav nav-pills navbar nav-justified1">
+                <li id="bdwd"
+                    :class="['un_select_left_view']"><a href="#">裁判文书</a></li>
+            </div>
+
+            <div class="left_catalog">
+                <!--案件列表-->
+                <div>
+                    <table class="table table-bordered aj_table" id="aj_table_list">
+                        <thead>
+                        <tr>
+                            <th style="width:20%">案件名称</th>
+                            <th style="width:10%">完成状态</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ms-for="file in @cpws_list" ms-click="@show_rdss(file.file_name)">
+                            <td style="text-align: left"><span >{{ file.file_name }}</span>
+                            </td>
+                            <td style="text-align: left"><span>{{ file.finish }}</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--章节下标-->
+                <div id="zjPage" class="m-pagination">
+                    <div style="text-align: center">
+                        <ul class="m-pagination-page" style="display: inline-block; vertical-align: middle">
+                            <li ms-for="page in @pageIdList" :class="[(@selectedPage == page ) && 'active']">
+                                <a ms-click="@changePage(page)">{{page}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="left_rdss">
+                <h4>文件名: {{selectedFile}}</h4>
+                <div>
+                    <p class="rdss">{{cpws_rdss}}</p>
+                </div>
+            </div>
+
+        </div>
+        <!--右边的内容-->
+        <div class="right">
+            <!--右边的导航栏,通用模板-->
+            <div class="nav nav-justified1 nav-pills navbar">
+                <div class="adjust-nav">
+                    <div class="navbar-header">
+                        <a class="navbar-brand universe_template" href="#"><i class="fa fa-square-o "></i>&nbsp;当前编辑文档：{{selectedFile}}</a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li id="emptymb" style="margin-top: 8px">
+                                <button type="button" class="btn btn-primary btn-mb"
+                                        data-loading-text="加载中..." :click="@create_bpmn()" title="新建空白文档">
+                                    已完成数量:{{cpws_finish_num}}
+                                </button>
+                                <button type="button" class="btn btn-primary btn-mb"
+                                        data-loading-text="加载中..." :click="@exportBpmnDiagram(@selectedFile)"
+                                        title="新建空白文档">保存BPMN
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="nav multiple_document" ms-visible="@right_opened_document_list.length > 0">
+                <div class="navbar-collapse collapse">
+                    <ul class="multiple_ul">
+                        <!--ms-for: file_name in @right_opened_document_list-->
+                        <div :class="['document_tab', (@selectedFile == file_name ? 'select_document' : 'un_select_document')]">
+                            <li :click="@show_rdss(file_name)" :attr="{title: file_name}">
+                                {{file_name}}
+                            </li>
+                            <div id="right_delete_document" class="delete_document_icon"
+                                 :click="@delete_document(file_name)" :attr="{title: '关闭预览，请确认BPMN图已保存'}"></div>
+                        </div>
+                        <!--ms-for-end:-->
+                    </ul>
+                </div>
+            </div>
+            <!--ms-for: file_name in @right_opened_document_list-->
+            <div ms-visible="@selectedFile == file_name">
+                <div :attr="{id: 'canvas' + file_name}" class="bpmn_container"></div>
+            </div>
+            <!--ms-for-end:-->
+
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="/css/fileinput.min.css" type="text/css">
+<link rel="stylesheet" href="/css/fileinput-rtl.min.css" type="text/css">
+<link rel="stylesheet" href="/css/bootstrap.css" type="text/css">
+<link rel="stylesheet" href="/css/bootstrap-treeview.min.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/css/htmleaf-demo.css">
+<link href="/css/jquery.pagination.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/cpws_style.css">
+<link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css" type="text/css">
+<link rel="stylesheet" href="/js/assets/diagram-js.css">
+<link rel="stylesheet" href="/js/assets/bpmn-font/css/bpmn.css">
+<!--[if lte IE 8]>
+<script src="/js/respond.min.js"></script>
+<script src="bootstrap/js/html5shiv.js"></script>
+<![endif]-->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/fileinput.min.js"></script>
+<script src="/js/locales/zh.js"></script>
+<script src="/js/bootstrap-treeview.min.js"></script>
+<script src="/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/js/jquery.pagination-1.2.7.js"></script>
+<script src="/js/bpmn-modeler.production.min.js"></script>
+<!--<script src="/js/bpmn-modeler.development.js"></script>-->
+<script src="/js/avalon/avalon.js"></script>
+<script src="/myJs/bpmn_model.js"></script>
+<script src="/myJs/cpws.js"></script>
+</body>
+</html>

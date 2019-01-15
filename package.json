@@ -1,0 +1,22 @@
+{
+  "name": "cpws_judge",
+  "version": "1.0.0",
+  "description": "spring boot 版",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/cpws_process_mining/cpws_judge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/cpws_process_mining/cpws_judge/issues"
+  },
+  "homepage": "https://gitlab.com/cpws_process_mining/cpws_judge#README",
+  "dependencies": {
+    "bpmn-js": "^3.0.4"
+  }
+}

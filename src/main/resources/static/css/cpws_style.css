@@ -1,0 +1,34 @@
+.left_catalog {
+    width: 30%;
+    height: 80vh;
+    overflow: scroll;
+    position: absolute;
+}
+
+.left_rdss {
+    width: 68%;
+    height:80vh;
+    margin-left: 32%;
+    display: block;
+    position: absolute;
+    margin-top: 50px;
+}
+.rdss {
+    margin: 5px;
+    word-break: break-all;
+}
+.bpmn_container {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+.diagram-note {
+}
+
+.finish_state {
+    background: #395990 !important;
+}
+
+.needs-discussion:not(.djs-connection) .djs-visual > :nth-child(1) {
+    stroke: rgba(66, 180, 21, 0.7) !important; /* color elements as red */
+}
